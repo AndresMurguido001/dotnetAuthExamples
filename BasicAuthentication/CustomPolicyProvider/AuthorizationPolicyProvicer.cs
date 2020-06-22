@@ -73,7 +73,7 @@ namespace BasicAuthentication.CustomPolicyProvider
         {
             var claimValue = Convert.ToInt32(context.User.Claims.FirstOrDefault(x => x.Type == DynamicPolicies.SecurityLevel)?.Value ?? "0");
 
-            if(requirement.Level <= claimValue)
+            if(requirement.Level <= claimValue) 
             {
                 context.Succeed(requirement);
             }
