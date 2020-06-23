@@ -40,19 +40,18 @@ namespace BasicAuthentication.CustomPolicyProvider
             var type = parts.First();
             var value = parts.Last();
 
-            switch (type)
+            return type switch
             {
-                case DynamicPolicies.Rank:
-                    return new AuthorizationPolicyBuilder()
+                DynamicPolicies.Rank =>
+                    new AuthorizationPolicyBuilder()
                         .RequireClaim("Rank", value)
-                        .Build();
-                case DynamicPolicies.SecurityLevel:
-                    return new AuthorizationPolicyBuilder()
+                        .Build(),
+                DynamicPolicies.SecurityLevel =>
+                    new AuthorizationPolicyBuilder()
                         .AddRequirements(new SecurityLevelRequirement(Convert.ToInt32(value)))
-                        .Build();
-                default:
-                    return null;
-            }
+                        .Build(),
+                _ => null
+            };
         }
     }
 
