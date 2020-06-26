@@ -10,12 +10,7 @@ namespace Server.Controllers
 {
     public class HomeController : Controller
     {
-        //private readonly IAuthorizationService _authorizationService;
-
-        //public HomeController(IAuthorizationService authorizationService)
-        //{
-        //    _authorizationService = authorizationService;
-        //}
+         
         public IActionResult Index()
         {
             return View();
