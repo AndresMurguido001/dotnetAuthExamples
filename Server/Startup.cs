@@ -41,6 +41,7 @@ namespace Server
                     // Checks if the token in Authorization Header is valid 
                     config.TokenValidationParameters = new TokenValidationParameters()
                     {
+                        ClockSkew = TimeSpan.Zero,
                         IssuerSigningKey = key,
                         ValidIssuer = Constants.Issuer,
                         ValidAudience = Constants.Audience

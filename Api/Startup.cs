@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Api.AuthRequirement;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -19,7 +20,11 @@ namespace Api
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddAuthentication();
+            // 2.  User is challenged using this authentication scheme
+            services.AddAuthentication("DefaultAuth")
+                .AddScheme<AuthenticationSchemeOptions,CustomAuthenticationHandler>("DefaultAuth", null);
+
+            // 1. When authorization fails ^
             services.AddAuthorization(config => {
                 config.DefaultPolicy = new AuthorizationPolicyBuilder()
                 .AddRequirements(new JwtRequirement())

@@ -51,7 +51,8 @@ namespace Server.Controllers
             string grant_type, // flow of access_token request
             string code, // confirmation of auth process 
             string redirect_uri, 
-            string client_id
+            string client_id,
+            string refresh_token
             )
         {
             // some mechanism to validate the code
@@ -74,7 +75,7 @@ namespace Server.Controllers
                     Constants.Audience,
                     claims,
                     DateTime.Now, // when token becomes valid
-                    DateTime.Now.AddHours(1), // when token expires
+                    expires: grant_type == "refresh_token" ? DateTime.Now.AddMinutes(5) : DateTime.Now.AddMilliseconds(1), // when token expires. If refresh_Token exp in 5, regular token exp right away
                     signingCreds);
 
             var access_token = new JwtSecurityTokenHandler().WriteToken(token);
@@ -83,7 +84,8 @@ namespace Server.Controllers
             {
                 access_token,
                 token_type = "Bearer",
-                raw_claim = "oauthTutorial"
+                raw_claim = "oauthTutorial",
+                refresh_token = "SampleRefreshToken"
             };
 
             var responseJson = JsonConvert.SerializeObject(response);
